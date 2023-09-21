@@ -1,0 +1,210 @@
+package funkcja;
+import java.awt.Graphics;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class wykres extends JFrame implements ActionListener {
+	boolean wid = true;
+	double a = 2;
+	double b = 1;
+	double c = 0;
+	public wykres() {
+		super("Remigiusz Zając");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JMenuBar menuBar = new JMenuBar();
+        JMenu menu1 = new JMenu("Funkcja kwadratowa");
+        JMenu menu2 = new JMenu("AX^2 + BX + C");
+        
+        menu2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wid=false;
+                repaint();
+            }
+        });
+        
+        JMenuItem menuItem2 = new JMenuItem("Rysuj wykres");
+        
+        menuItem2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                wid=true;
+                repaint();
+            }
+        });
+        
+        JMenuItem menuItem3 = new JMenuItem("Zamknij");
+        menuItem3.addActionListener(this);
+        menu1.add(menu2);
+        menu1.add(menuItem2);
+        menu1.add(menuItem3);
+
+        JMenu menuA = new JMenu("A");
+        JMenu menuB = new JMenu("B");
+        JMenu menuC = new JMenu("C");
+
+        menu2.add(menuA);
+        menu2.add(menuB);
+        menu2.add(menuC);
+
+        JMenuItem menuA1 = new JMenuItem("10");
+        
+        menuA1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                a = 10;
+                wid=false;
+                repaint();
+            }
+        });
+        
+        JMenuItem menuA2 = new JMenuItem("0");
+        
+        menuA2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                a = 0;
+                wid=false;
+                repaint();
+            }
+        });
+        
+        JMenuItem menuA3 = new JMenuItem("-5");
+        
+        menuA3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                a = -5;
+                wid=false;
+                repaint();
+            }
+        });
+        
+        menuA.add(menuA1);
+        menuA.add(menuA2);
+        menuA.add(menuA3);
+
+        JMenuItem menuB1 = new JMenuItem("10");
+        
+        menuB1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                b = 10;
+                wid=false;
+                repaint();
+            }
+        });
+        
+        JMenuItem menuB2 = new JMenuItem("0");
+        
+        menuB2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                b = 0;
+                wid=false;
+                repaint();
+            }
+        });
+        
+        JMenuItem menuB3 = new JMenuItem("-5");
+        
+        menuB3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                b = -5;
+                wid=false;
+                repaint();
+            }
+        });
+        
+        menuB.add(menuB1);
+        menuB.add(menuB2);
+        menuB.add(menuB3);
+
+        JMenuItem menuC1 = new JMenuItem("10");
+        
+        menuC1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c = 10;
+                wid=false;
+                repaint();
+            }
+        });
+        
+        JMenuItem menuC2 = new JMenuItem("0");
+        
+        menuC2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c = 0;
+                wid=false;
+                repaint();
+            }
+        });
+        
+        JMenuItem menuC3 = new JMenuItem("-5");
+        
+        menuC3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                c = -5;
+                wid=false;
+                repaint();
+            }
+        });
+        
+        menuC.add(menuC1);
+        menuC.add(menuC2);
+        menuC.add(menuC3);
+
+        menuBar.add(menu1);
+        setJMenuBar(menuBar);
+		
+		setJMenuBar(menuBar);
+		setSize(800,600);
+		setVisible(true);
+	}
+	 public void osie (Graphics g) {
+		 g.setColor(Color.green);
+		 g.drawLine((getWidth()/2)+500, (getHeight()/2), (getWidth()/2)-500, getHeight()/2);
+		 g.drawLine(getWidth()/2,(getHeight()/2)+300,getWidth()/2,(getHeight()/2)-245);
+	 }
+	 
+	 public void graphics (Graphics g) {
+		 g.setColor(Color.red);
+		 for (double x= (-100); x<=100; x += 0.001) {
+			 double y = a * x * x + b * x + c;
+			 int X = (int)Math.round(((getWidth()/2))+0 + x*20);
+			 int Y = (int)Math.round((600-getHeight()/2) - y*20);
+			 g.fillOval((X-2),Y-2,4,4);
+		 }
+	 }
+	 
+	 public void paint (Graphics g) {
+		 super.paint(g);
+		 g.clearRect(0, 70, getSize().width, getSize().height);
+		 osie(g);
+		 if(wid) {
+			 graphics(g);
+		 }
+	 }
+	 
+	 public void actionPerformed(ActionEvent e) {
+		 String cmd = e.getActionCommand();
+		 
+		 if ("Zamknij".equals(cmd)) {
+			 dispose();
+		 }
+	 }
+	 
+	 public static void main(String args[]) {
+		 SwingUtilities.invokeLater(new Runnable() {
+			 public void run() {
+				 new wykres();
+			 }
+		 });
+	 }
+}

@@ -1,0 +1,37 @@
+package com.mycompany.mavenproject4;
+import java.awt.TextField;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class MyFrame extends JFrame {
+
+    public MyFrame() {
+        super("Kalkulator Prosty");
+        setSize(400, 400);
+        setLocation(150,150);
+        
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu1 = new JMenu("Menu");
+        JMenu menu2 = new JMenu("Help");
+        menu1.setActionCommand("cmd");
+        JMenuItem menuItem11 = new JMenuItem("Zamknij");
+        //menuItem11.addActionListener((ActionListener) this);
+        menu1.add(menuItem11);
+        menuBar.add(menu1);
+        menuBar.add(menu2);
+        setJMenuBar(menuBar);
+        
+        setResizable(true);
+        JPanel panel = new MojPanel();
+        add(panel);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setVisible(true);
+    }
+}

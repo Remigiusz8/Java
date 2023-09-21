@@ -1,0 +1,253 @@
+package com.mycompany.mavenproject3;
+import javax.swing.*; 
+import java.awt.event.*;
+
+public class Kalkulator extends JFrame implements ActionListener {
+    
+    int dzialanie = 0;
+    private double arg1;
+    private double arg2;
+    private double wyn;
+    private String str="";
+    JButton zero;
+    JButton jeden;
+    JButton dwa;
+    JButton trzy;
+    JButton cztery;
+    JButton piec;
+    JButton szesc;
+    JButton siedem;
+    JButton osiem;
+    JButton dziewiec;
+    JButton plus;
+    JButton minus;
+    JButton gwiazdka;
+    JButton slash;
+    JButton rowna;
+    JButton kropka;
+    JButton button;
+    JTextField textField;
+    JTextField textField2;
+    
+    public Kalkulator() {
+        super();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(320, 400);
+        setTitle("Kalkulator prosty");
+        JMenuBar menuBar = new JMenuBar();
+        JMenu menu1 = new JMenu("Menu");
+        JMenu menu2 = new JMenu("Help");
+        menu2.setActionCommand("cmdGetText");
+        JMenuItem menuItem11 = new JMenuItem("Zamknij");
+        menuItem11.addActionListener(this);
+        menu1.add(menuItem11);
+        menuBar.add(menu1);
+        menuBar.add(menu2);
+        setJMenuBar(menuBar);
+
+        setLayout(null);
+        
+        zero = new JButton("0");
+        this.add(zero);
+        zero.addActionListener(this);
+        zero.setBounds(95, 210, 30, 30);
+        zero.setBorder(null);
+        
+        jeden = new JButton("1");
+        this.add(jeden);
+        jeden.addActionListener(this);
+        jeden.setBounds(95, 120, 30, 30);
+        jeden.setBorder(null);
+        
+        dwa = new JButton("2");
+        this.add(dwa);
+        dwa.addActionListener(this);
+        dwa.setBounds(125, 120, 30, 30);
+        dwa.setBorder(null);
+        
+                trzy = new JButton("3");
+        this.add(trzy);
+        trzy.addActionListener(this);
+        trzy.setBounds(155, 120, 30, 30);
+        trzy.setBorder(null);
+        
+                plus = new JButton("+");
+        this.add(plus);
+        plus.addActionListener(this);
+        plus.setBounds(185, 120, 30, 30);
+        plus.setBorder(null);
+        
+                cztery = new JButton("4");
+        this.add(cztery);
+        cztery.addActionListener(this);
+        cztery.setBounds(95, 150, 30, 30);
+        cztery.setBorder(null);
+        
+                piec = new JButton("5");
+        this.add(piec);
+        piec.addActionListener(this);
+        piec.setBounds(125, 150, 30, 30);
+        piec.setBorder(null);
+        
+        szesc = new JButton("6");
+        this.add(szesc);
+        szesc.addActionListener(this);
+        szesc.setBounds(155, 150, 30, 30);
+        szesc.setBorder(null);
+        
+        minus = new JButton("-");
+        this.add(minus);
+        minus.addActionListener(this);
+        minus.setBounds(185, 150, 30, 30);
+        minus.setBorder(null);
+        
+        siedem = new JButton("7");
+        this.add(siedem);
+        siedem.addActionListener(this);
+        siedem.setBounds(95, 180, 30, 30);
+        siedem.setBorder(null);
+        
+        osiem = new JButton("8");
+        this.add(osiem);
+        osiem.addActionListener(this);
+        osiem.setBounds(125, 180, 30, 30);
+        osiem.setBorder(null);
+        
+        dziewiec = new JButton("9");
+        this.add(dziewiec);
+        dziewiec.addActionListener(this);
+        dziewiec.setBounds(155, 180, 30, 30);
+        dziewiec.setBorder(null);
+        
+        gwiazdka = new JButton("*");
+        this.add(gwiazdka);
+        gwiazdka.addActionListener(this);
+        gwiazdka.setBounds(185, 180, 30, 30);
+        gwiazdka.setBorder(null);
+        
+        kropka = new JButton(".");
+        this.add(kropka);
+        kropka.addActionListener(this);
+        kropka.setBounds(125, 210, 30, 30);
+        kropka.setBorder(null);
+        
+        rowna = new JButton("=");
+        this.add(rowna);
+        rowna.addActionListener(this);
+        rowna.setBounds(155, 210, 30, 30);
+        rowna.setBorder(null);
+        
+        slash = new JButton("/");
+        this.add(slash);
+        slash.addActionListener(this);
+        slash.setBounds(185, 210, 30, 30);
+        slash.setBorder(null);
+        
+        textField2 = new JTextField("Etykieta");
+        textField2.setBounds(150, 25, 100, 20);
+        textField = new JTextField("Pole Tekstowe");
+        textField.setBounds(50, 25, 100, 20);
+        this.add(textField2);
+        this.add(textField);
+        setVisible(true);
+    }
+    
+    public void actionPerformed(ActionEvent e) {
+        if ("cmdGetText".equals(e.getActionCommand())){
+            String tekst = textField.getText();
+            JOptionPane.showMessageDialog(this, "Odczytany tekst: " + tekst,
+            "Informacja!", JOptionPane.INFORMATION_MESSAGE);
+        }
+        String cmd = e.getActionCommand();
+        if ("Zamknij".equals(cmd)) {
+            dispose();
+        }
+        
+        Object source = e.getSource();
+        if (source == jeden)
+            str = str+"1";
+        if (source == dwa)
+            str = str+"2";
+        if (source == trzy)
+            str = str+"3";
+        if (source == cztery)
+            str = str+"4";
+        if (source == piec)
+            str = str+"5";
+        if (source == szesc)
+            str = str+"6";
+        if (source == siedem)
+            str = str+"7";
+        if (source == osiem)
+            str = str+"8";
+        if (source == dziewiec)
+            str = str+"9";
+        if (source == zero)
+            str = str+"0";
+                
+                
+        if (source == plus)
+        {
+            arg1 = Double.parseDouble(textField.getText());
+            str="";
+            textField2.setText("");
+            dzialanie = 1;
+        }
+        if (source == minus)
+        {
+            arg1 = Double.parseDouble(textField.getText());
+            str="";
+            textField2.setText("");
+            dzialanie = 2;
+        }
+        if (source == gwiazdka)
+        {
+            arg1 = Double.parseDouble(textField.getText());
+            str="";
+            textField2.setText("");
+            dzialanie = 3;
+        }
+        if (source == slash)
+        {
+            arg1 = Double.parseDouble(textField.getText());
+            str="";
+            textField2.setText("");
+            dzialanie = 4;
+        }
+        if (source == rowna)
+        {
+            arg2 = Double.parseDouble(textField.getText());
+            double wynik = 0;
+            switch(dzialanie) {
+            case 1:
+                wynik = arg1 + arg2;
+                break;
+            case 2:
+                wynik = arg1 - arg2;
+                break;
+            case 3:
+                wynik = arg1 * arg2;
+                break;
+            case 4:
+                if (arg2 == 0) {
+                    wynik = 0;
+                } else {
+                    wynik = arg1 / arg2;
+                }
+                break;
+            default:
+                System.out.println("cos sie popsuło");
+                break;
+            }
+            str = "";
+            str = Double.toString(wynik);
+            textField2.setText(str);
+        }
+
+    
+    }
+
+    private void addActionCommand() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+}

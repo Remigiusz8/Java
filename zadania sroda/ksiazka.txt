@@ -1,0 +1,325 @@
+package com.mycompany.mavenproject6;
+
+
+import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+
+public class ksiazka implements ActionListener {
+    // frame
+    JFrame Okno; // tutaj jest głowne okno ksiazki
+
+    JFrame addEntryFrame; // tutaj jest okno ktore dodaje wpisy
+    JFrame delEntryFrame; // okno w ktorym usuwasz wpisy
+    // Table
+    static JTable table; // tabela w ktorej twoje wpisy są
+
+    DefaultTableModel dtm; // model widoku tabeli ktory jest potrzebny aby mozna bylo operowac na tabeli
+
+    /*Poniżej są pola tekstowe*/
+    JTextField PoleImie;
+    JTextField PoleMiasto;
+    JTextField PoleNumer1;
+    JTextField PoleNumer2;
+    JTextField PoleNumer3;
+    JTextField idField;
+    JTextField nameField;
+    JTextField pN1Field;
+    JTextField townField;
+    JTextField pN2Field;
+    JTextField pN3Field;
+
+    File selectedFile; // plik obecny uzywany do zapisu
+
+    // Constructor
+    ksiazka() // tutaj w konstruktorze tworzymy cala zawartosc aplikacji
+    {
+        // Frame initialization
+        Okno = new JFrame();
+        Okno.setSize(600,400); // wielkosc okna
+        Okno.setResizable(false); // nie pozwalamy aby okno bylo rozszerzalne
+        Okno.setDefaultCloseOperation(Okno.EXIT_ON_CLOSE);
+
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu menu1 = new JMenu("Opcje książki");
+        JMenu menu2 = new JMenu("Pomoc");
+
+        /* Tutaj tworzymy opcje paska menu */
+        JMenuItem menuItem11 = new JMenuItem("Dodaj wpis");
+        menuItem11.addActionListener(this);
+        JMenuItem menuItem12 = new JMenuItem("Usuń wpis");
+        menuItem12.addActionListener(this);
+        JMenuItem menuItem13 = new JMenuItem("Zmień książke");
+        menuItem13.addActionListener(this);
+        JMenuItem menuItem14 = new JMenuItem("Zapisz i wyjdź");
+        menuItem14.addActionListener(this);
+
+        menu1.add(menuItem11);
+        menu1.add(menuItem12);
+        menu1.add(menuItem13);
+        menu1.add(menuItem14);
+        menuBar.add(menu1);
+        menuBar.add(menu2);
+
+        Okno.setJMenuBar(menuBar); // Tutaj dodajemu menu do paska
+
+        // Frame Title
+        Okno.setTitle("PhoneBook"); // tytuł twojej aplikacji
+
+        String[] tblHead={"Imie", "Nazwisko", "Numer telefonu1", "Numer telefonu2", "Numer telefonu3"}; // nagłówki tabeli
+        dtm = new DefaultTableModel(tblHead,0);
+        JTable table = new JTable(dtm);
+        table.setBounds(30, 40, 200, 300); // wielkosc tabeli
+
+        // adding it to JScrollPane
+        JScrollPane sp = new JScrollPane(table);
+        Okno.add(sp);
+        // Frame Size
+        Okno.setSize(500, 200);
+        // Frame Visible = true
+        Okno.setVisible(true);
+
+    }
+
+    // Driver  method
+    public static void main(String[] args)
+    {
+        new ksiazka();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+
+        /* tutaj są akcje w zaleznosci co klikniesz w menu */
+        switch(command) {
+            case "Dodaj wpis":
+                addEntry();
+                break;
+            case "Zmień książke":
+                loadData();
+                break;
+            case "Zapisz i wyjdź":
+                saveAndExit();
+                break;
+            case "Usuń wpis":
+                remove();
+                break;
+        }
+    }
+
+    private void addEntry() { // metoda w ktorej dodajemy wpisy tworzy ona okno do dodawania wpisow
+        addEntryFrame = new JFrame("Dodaj wpis");
+        addEntryFrame.setSize(600,500);
+        addEntryFrame.setAlwaysOnTop(true);
+        JPanel panel = new JPanel();
+
+
+        JLabel tytul = new JLabel("Dodaj wpis do książki");
+        addEntryFrame.add(tytul);
+        tytul.setLocation(100, 30);
+        tytul.setFont(new Font("Arial", Font.PLAIN, 30));
+        tytul.setSize(450, 35);
+
+        JLabel imie = new JLabel("Imię");
+        imie.setLocation(100, 100);
+        imie.setFont(new Font("Arial", Font.PLAIN, 10));
+        addEntryFrame.add(imie);
+        imie.setSize(100, 20);
+        
+
+        nameField = new JTextField();
+        nameField.setFont(new Font("Arial", Font.PLAIN, 15));
+        nameField.setLocation(200, 100);
+        addEntryFrame.add(nameField);
+        nameField.setSize(150, 20);
+        
+
+        JLabel miasto = new JLabel("Miasto");
+        miasto.setSize(100, 20);
+        addEntryFrame.add(miasto);
+        miasto.setFont(new Font("Arial", Font.PLAIN, 10));
+        miasto.setLocation(100, 150);
+
+        townField = new JTextField();
+        townField.setFont(new Font("Arial", Font.PLAIN, 15));
+        townField.setSize(150, 20);
+        townField.setLocation(200, 150);
+        addEntryFrame.add(townField);
+
+        JLabel numer1 = new JLabel("Numer telefonu 1");
+        numer1.setFont(new Font("Arial", Font.PLAIN, 10));
+        numer1.setSize(100, 20);
+        numer1.setLocation(100, 200);
+        addEntryFrame.add(numer1);
+
+        pN1Field = new JTextField();
+        pN1Field.setFont(new Font("Arial", Font.PLAIN, 15));
+        pN1Field.setSize(150, 20);
+        pN1Field.setLocation(200, 200);
+        addEntryFrame.add(pN1Field);
+
+
+
+        JLabel numer2 = new JLabel("Numer telefonu 2");
+        numer2.setFont(new Font("Arial", Font.PLAIN, 10));
+        numer2.setSize(100, 20);
+        numer2.setLocation(100, 250);
+        addEntryFrame.add(numer2);
+
+        pN2Field = new JTextField();
+        pN2Field.setFont(new Font("Arial", Font.PLAIN, 15));
+        pN2Field.setSize(150, 20);
+        pN2Field.setLocation(200, 250);
+        addEntryFrame.add(pN2Field);
+
+        JLabel numer3 = new JLabel("Numer telefonu 3");
+        numer3.setFont(new Font("Arial", Font.PLAIN, 10));
+        numer3.setSize(100, 20);
+        numer3.setLocation(100, 300);
+        addEntryFrame.add(numer3);
+
+        PoleNumer3 = new JTextField();
+        PoleNumer3.setFont(new Font("Arial", Font.PLAIN, 15));
+        PoleNumer3.setSize(150, 20);
+        PoleNumer3.setLocation(200, 300);
+        addEntryFrame.add(PoleNumer3);
+
+        JButton save =new JButton("Dodaj wpis!");
+        save.setBounds(200,400,95,30);
+
+        save.addActionListener(e -> checkAndAdd());
+
+        panel.add(save);
+        addEntryFrame.add(panel);
+
+
+        addEntryFrame.setVisible(true);
+    }
+
+    private void checkAndAdd() {  // funkcja ta sprawdza pola i dodaje do bazy wpis
+
+        Object[] row = { nameField.getText(), townField.getText(), pN1Field.getText(), pN2Field.getText(), pN3Field.getText()};
+
+        dtm.addRow(row);
+
+        addEntryFrame.dispose();
+    }
+
+    private void loadData() { // metoda ktora laduje wpisy do ksiazi
+
+        JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory()); // otwieramy okno dialogowe w ktorym mozesz sobie wybrac plik
+
+        int returnValue = jfc.showOpenDialog(null);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            selectedFile = jfc.getSelectedFile();
+        }
+
+        Scanner inputStream = null;
+
+        try {
+            inputStream = new Scanner(selectedFile);
+        } catch (IOException exception) {
+
+        }
+
+        while (inputStream.hasNextLine()) {
+            Object[] row = { inputStream.nextLine(), inputStream.nextLine(), inputStream.nextLine(), inputStream.nextLine(), inputStream.nextLine()};
+            dtm.addRow(row); // ladujemy dane do tabeli
+        }
+
+        Okno.setTitle("PhoneBook obecna książka - " + selectedFile.getName()); // zmieniamy tytul i wyswietlamy obecna ksiazke
+    }
+
+    public void saveAndExit() { // wychodzimy i zapisujemy ksiazke
+
+
+        PrintWriter outputStream = null;
+
+        if(selectedFile == null) {
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+            int returnValue = jfc.showOpenDialog(null);
+
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                selectedFile = jfc.getSelectedFile();
+            }
+        }
+
+
+        try {
+            outputStream = new PrintWriter(selectedFile);
+            for(int i = 0; i < dtm.getRowCount(); i++) {
+                outputStream.println(dtm.getDataVector().get(i).get(0));
+                outputStream.println(dtm.getDataVector().get(i).get(1));
+                outputStream.println(dtm.getDataVector().get(i).get(2));
+                outputStream.println(dtm.getDataVector().get(i).get(3));
+                outputStream.println(dtm.getDataVector().get(i).get(4));
+            }
+            outputStream.close();
+        } catch(IOException ignored) {
+
+        }
+
+        System.exit(0);
+    }
+
+    private void remove() { // tutaj jest metoda ktora tworzy okno do usuwania wpisow
+        delEntryFrame = new JFrame("Usuń wpis");
+        delEntryFrame .setSize(600,500);
+        delEntryFrame .setAlwaysOnTop(true);
+        JPanel panel = new JPanel();
+
+
+        JLabel title = new JLabel("Usuń wpis z książki");
+        title.setFont(new Font("Arial", Font.PLAIN, 30));
+        title.setSize(300, 30);
+        title.setLocation(100, 30);
+        delEntryFrame .add(title);
+
+        JLabel id = new JLabel("Podaj numer wpisu");
+        id.setFont(new Font("Arial", Font.PLAIN, 10));
+        id.setSize(100, 20);
+        id.setLocation(100, 100);
+        delEntryFrame.add(id);
+
+        idField = new JTextField();
+        idField.setFont(new Font("Arial", Font.PLAIN, 15));
+        idField.setSize(150, 20);
+        idField.setLocation(200, 100);
+        delEntryFrame.add(idField);
+
+        JButton save =new JButton("Usuń  wpis!");
+        save.setBounds(200,400,95,30);
+
+        save.addActionListener(e -> removeEntry(idField.getText())); // tutaj wywolujemy akcje ktora jest rozpoczynana gdy nacisniemy guzik
+
+        panel.add(save);
+        delEntryFrame.add(panel);
+
+
+        delEntryFrame.setVisible(true);
+    }
+
+    private void removeEntry(String id) { // metoda ktora usuwa wpisy 
+        int idToRemove = Integer.parseInt(id);
+
+        try {
+            dtm.removeRow(idToRemove - 1);
+        } catch(Exception exception) {
+            System.out.println("Uwaga. Brak takiego wpisu!");
+        } finally {
+            delEntryFrame.dispose();
+        }
+    }
+}

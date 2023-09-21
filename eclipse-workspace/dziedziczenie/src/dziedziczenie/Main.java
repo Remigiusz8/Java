@@ -1,0 +1,101 @@
+package dziedziczenie;
+import java.util.Scanner;
+public class Main{
+    public static void main(String args[]){
+    	PhoneBook pb = new PhoneBook();
+    	Scanner s = new Scanner(System.in);
+    	if (pb.odczyt() != 0) {
+    		System.out.println("Problem z odczytem");
+    	}
+    	boolean exit = false;
+    	while(!exit) {
+    		System.out.println("Wybierz akcje: ");
+    		System.out.println("1. Wyswietl wszystkie wpisy");
+    		System.out.println("2. Wyswietl wybrany wpis");
+    		System.out.println("3. Popraw wpis");
+    		System.out.println("4. Usun wpis");
+    		System.out.println("5. Dodaj wpis");
+    		System.out.println("6. Zapisz i zakoncz program");
+    		int wybor = s.nextInt();
+    		int index;
+    		switch(wybor) {
+			case 1:
+				if (Wpis.iloscWpisow == 0) {
+    				System.out.println("Brak wpisów");
+    				break;
+    			}
+    			pb.wypiszWpisy();
+    			break;
+    		case 2:
+    			if (Wpis.iloscWpisow == 0) {
+    				System.out.println("Brak wpisów");
+    				break;
+    			}
+    			System.out.println("Podaj index wpisu, ktory chcesz wyswietlic");
+    			index = s.nextInt();
+    			if (index < 1) {
+    				System.out.println("Niepoprawna liczba!");
+    				break;
+    			}
+    			pb.wypiszWpis(index-1);
+    			break;
+			case 3:
+				if (Wpis.iloscWpisow == 0) {
+    				System.out.println("Brak wpisów");
+    				break;
+    			}
+    			System.out.println("Podaj index wpisu, ktory chcesz zmodyfikowac");
+    			index = s.nextInt();
+    			System.out.println("Podaj nowa nazwe");
+    			String nowa_nazwa = s.next();
+    			System.out.println("Podaj nowe miejsce");
+    			String nowa_miejsce = s.next();
+    			System.out.println("Podaj nowe telefon 1");
+    			String nowy_tel1 = s.next();
+    			System.out.println("Podaj nowe telefon 2");
+    			String nowy_tel2 = s.next();
+    			System.out.println("Podaj nowe telefon 3");
+    			String nowy_tel3 = s.next();
+    			
+    			pb.zmodyfikujWpisTel(index-1, nowa_nazwa, nowa_miejsce, nowy_tel1, nowy_tel2, nowy_tel3);
+    			break;
+    		case 4:
+    			if (Wpis.iloscWpisow == 0) {
+    				System.out.println("Brak wpisów");
+    				break;
+    			}
+    			System.out.println("Podaj index wpisu, ktory chcesz usunac");
+   			 	index = s.nextInt();
+   			 	pb.usunWpis(index-1);
+   			 	Wpis.iloscWpisow--;
+   			 	break;
+    		case 5:
+    			System.out.println("Podaj nowa nazwe");
+    			String nazwa = s.next();
+    			System.out.println("Podaj nowe miejsce");
+    			String miejsce = s.next();
+    			System.out.println("Podaj nowe telefon 1");
+    			String tel1 = s.next();
+    			System.out.println("Podaj nowe telefon 2");
+    			String tel2 = s.next();
+    			System.out.println("Podaj nowe telefon 3");
+    			String tel3 = s.next();
+    			
+    			Wpis2 nowy_wpis = new Wpis2(nazwa, miejsce, tel1, tel2, tel3);
+    			pb.dodajWpis(nowy_wpis);
+    			Wpis.iloscWpisow++;
+    			break;
+    		case 6:
+    			System.out.println("SAVING");
+    			System.out.println("Wartoœæ zwrócona:" + pb.zapis());
+    			System.out.println("EXIT");
+    			exit = true;
+    			break;
+    		default:
+    			System.out.println("Blad, wprowadz wartosc ponownie");
+    		}
+    			
+    	}
+    }
+    
+}

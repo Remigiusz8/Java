@@ -1,0 +1,8 @@
+INDEX VERSION 1.4+C:\Users\Remik\eclipse-workspace\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3589879733.index
+1304379357.index
+3142218336.index
+5076231.index
+2661710304.index
+1612457097.index
+2603726053.index
